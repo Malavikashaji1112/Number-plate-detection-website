@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Number plate detection</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+
+            <header>
+                <h1>Number plate detection</h1>
+                <p class="subtitle">Upload a video and it'll track each vehicle, find its plate, and read it.</p>
+                <div class="stripe"></div>
+            </header>
+
+            <section class="upload-card">
+                <div class="upload-row">
+                    <input type="file" id="media" name="media" accept="video/*">
+                    <button id="detectBtn" type="submit">Detect plates</button>
+                </div>
+
+                <p id="loading">Processing</p>
+            </section>
+
+            <div class="preview-box">
+                <h2>Preview</h2>
+                <img id="livePreview" alt="Live detection preview">
+            </div>
+
+            <div class="results-box">
+                <h2>Detection Results</h2>
+                <div id="resultContainer">
+                    <p class="no-result">No results yet.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="./script.js"></script>
+    </body>
+</html>
