@@ -33,7 +33,7 @@ vehicle_model = YOLO("yolo26n.pt")
 vehicle_model.to(DEVICE)
 
 print("Loading number plate model...")
-plate_model = YOLO("license_plate_detector.pt")
+plate_model = YOLO("best.pt")
 plate_model.to(DEVICE)
 
 print("Loading PaddleOCR...")
