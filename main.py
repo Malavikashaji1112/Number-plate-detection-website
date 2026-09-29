@@ -33,7 +33,7 @@ vehicle_model = YOLO("yolo26n.pt")
 vehicle_model.to(DEVICE)
 
 print("Loading number plate model...")
-plate_model = YOLO("best.pt")
+plate_model = YOLO("best_1.pt")
 plate_model.to(DEVICE)
 
 print("Loading PaddleOCR...")
@@ -62,6 +62,11 @@ def format_plate(plate):
     if m:
         return f"{m.group(1)} {m.group(2)} {m.group(3)} {m.group(4)}"
     return plate
+
+def crop_to_base64(crop, quality=90):
+    ok, buf = cv2.imencode(".jpg", crop, [cv2.IMWRITE_JPEG_QUALITY, quality])
+    return base64.b64encode(buf.tobytes()).decode("ascii") if ok else None
+
 def process_video_streaming(video_path):
  
     cap = cv2.VideoCapture(video_path)
@@ -159,7 +164,10 @@ def process_video_streaming(video_path):
                                 "vehicle_id": car_id,
                                 "vehicle": f"Car {car_id}",
                                 "plate": format_plate(plate_text),
-                                "confidence": confidence
+                                "confidence": confidence,
+                                 "plate_image": crop_to_base64(plate_crop_up)
+
+                                
                                     }
 
                                     break
