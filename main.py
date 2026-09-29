@@ -57,7 +57,11 @@ SEND_FRAME_EVERY_N_PROCESSED = 1
 
 PLATE_PATTERN = re.compile(r'^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$')
 
-
+def format_plate(plate):
+    m = re.match(r'^([A-Z]{2})([0-9]{2})([A-Z]{1,2})([0-9]{4})$', plate)
+    if m:
+        return f"{m.group(1)} {m.group(2)} {m.group(3)} {m.group(4)}"
+    return plate
 def process_video_streaming(video_path):
  
     cap = cv2.VideoCapture(video_path)
@@ -146,20 +150,20 @@ def process_video_streaming(video_path):
 
                             already_seen = {info["plate"] for info in plates.values()}
                             if PLATE_PATTERN.match(plate_text) and plate_text not in already_seen:
-                                confidence = round(sum(scores) / len(scores), 3) if scores else None
-                                plates[car_id] = {"plate": plate_text, "confidence": confidence}
-                                print(f"Car {car_id}: {plate_text} ({confidence})")
+                                    confidence = round(sum(scores) / len(scores), 3) if scores else None
+                                    plates[car_id] = {"plate": plate_text, "confidence": confidence}
+                                    print(f"Car {car_id}: {plate_text} ({confidence})")
 
-                                yield {
-                                    "type": "plate_found",
-                                    "vehicle_id": car_id,
-                                    "vehicle": f"Car {car_id}",
-                                    "plate": plate_text,
-                                    "confidence": confidence
-                                }
+                                    yield {
+                                "type": "plate_found",
+                                "vehicle_id": car_id,
+                                "vehicle": f"Car {car_id}",
+                                "plate": format_plate(plate_text),
+                                "confidence": confidence
+                                    }
 
-                            break
-                        break
+                                    break
+                break
 
         
         for car_id, (vx1, vy1, vx2, vy2) in boxes.items():
