@@ -100,9 +100,15 @@ function appendResultCard(result) {
     const confidenceClass = hasConfidence && confidencePct < 60 ? "confidence low" : "confidence";
 
     card.innerHTML = `
-        <span class="vehicle-label">${result.vehicle}</span>
+             <span class="vehicle-label">${result.vehicle}</span>
+    <div class="plate-block">
+        ${result.plate_image
+            ? `<img class="plate-img" src="data:image/jpeg;base64,${result.plate_image}" alt="${result.plate}">`
+            : ""}
         <span class="plate-badge">${result.plate}</span>
-        <span class="${confidenceClass}">${hasConfidence ? confidencePct + "%" : "—"}</span>
+    </div>
+    <span class="${confidenceClass}">${hasConfidence ? confidencePct + "%" : "—"}</span>
+       
     `;
 
     resultContainer.appendChild(card);
